@@ -53,6 +53,8 @@ $config = [
         */
     ],
     'params' => $params,
+    'defaultRoute' => 'system',
+    'layout' => 'system'
 ];
 
 if (YII_ENV_DEV) {
