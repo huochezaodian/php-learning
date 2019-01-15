@@ -30,7 +30,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => '图书管理系统',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -39,8 +39,8 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/system/index']],
-            ['label' => 'Contact', 'url' => ['/system/contact']]
+            ['label' => '列表', 'url' => ['/system/index']],
+            ['label' => '添加/修改', 'url' => ['/system/contact']]
         ],
     ]);
     NavBar::end();

@@ -8,12 +8,29 @@ use yii\base\Model;
 class BookInfo extends Model
 {
     /**
+     * 检查 library 表是否存在
+     * 若存在，则跳过创建表操作
+     */
+    public function createTable()
+    {
+        $sql = 'CREATE TABLE IF NOT EXISTS `library` (
+                `id` int(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `name` varchar(32) default NULL,
+                `type` varchar(32) default NULL,
+                `price` varchar(32) default NULL,
+                `pages` varchar(32) default NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
+        Yii::$app->db->createCommand($sql)->execute();
+    }
+
+    /**
      * Find books
      *
      * @return array
      */
     public function findBooks()
     {
+        $this->createTable();
         $books = Yii::$app->db->createCommand('SELECT * FROM library')->queryAll();
         return $books;
     }
