@@ -11,11 +11,10 @@ use yii\base\Model;
 class ContactForm extends Model
 {
     public $name;
-    public $email;
-    public $subject;
-    public $body;
-    public $verifyCode;
-
+    public $type;
+    public $price;
+    public $pages;
+    public $id;
 
     /**
      * @return array the validation rules.
@@ -24,41 +23,22 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
+            [['name', 'type', 'price', 'pages'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
-            // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
         ];
     }
 
     /**
-     * @return array customized attribute labels
+     * loadBook
+     * @param book
      */
-    public function attributeLabels()
+    public function loadBook($book)
     {
-        return [
-            'verifyCode' => 'Verification Code',
-        ];
-    }
-
-    /**
-     * Sends an email to the specified email address using the information collected by this model.
-     * @param string $email the target email address
-     * @return bool whether the model passes validation
-     */
-    public function contact($email)
-    {
-        if ($this->validate()) {
-            Yii::$app->mailer->compose()
-                ->setTo($email)
-                ->setFrom([$this->email => $this->name])
-                ->setSubject($this->subject)
-                ->setTextBody($this->body)
-                ->send();
-
-            return true;
-        }
-        return false;
+        $this->name = $book['name'];
+        $this->type = $book['type'];
+        $this->price = $book['price'];
+        $this->pages = $book['pages'];
+        $this->id = $book['id'];
     }
 }

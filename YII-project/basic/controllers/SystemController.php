@@ -13,7 +13,7 @@ class SystemController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return Response|string
      */
     public function actionIndex()
     {
@@ -31,14 +31,60 @@ class SystemController extends Controller
      */
     public function actionContact()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
+        $form = new ContactForm();
+        $bookInfo = new BookInfo();
+        $id = Yii::$app->request->get('id');
+        if ($id) {
+            $book = $bookInfo->findOneBookById($id);
+            $form->loadBook($book);
         }
         return $this->render('contact', [
-            'model' => $model,
+            'model' => $form,
         ]);
+    }
+
+    /**
+     * contactform submit.
+     */
+    public function actionSubmit()
+    {
+        $request =  YII::$app->request;
+        $params = $request->post('ContactForm');
+        $form = new ContactForm();
+        $bookInfo = new BookInfo();
+        $id = $request->get('id');
+        if ($id) {
+            $result = $bookInfo->updateOneBookById($id, [
+                'name' => $params['name'],
+                'type' => $params['type'],
+                'price' => $params['price'],
+                'pages' => $params['pages'],
+            ]);
+        } else {
+            $result = $bookInfo->addOneBook([
+                'name' => $params['name'],
+                'type' => $params['type'],
+                'price' => $params['price'],
+                'pages' => $params['pages'],
+            ]);
+        }
+        if ($result) {
+            return $this->redirect(['index']);
+        }
+        return $this->renderPartial('contact', [
+            'model' => $form,
+        ]);
+    }
+
+    /**
+     *  delete
+     */
+    public function actionDelete()
+    {
+        $request =  YII::$app->request;
+        $bookInfo = new BookInfo();
+        $id = $request->get('id');
+        $result = $bookInfo->deleteOneBookById($id);
+        $this->redirect(['index']);
     }
 }

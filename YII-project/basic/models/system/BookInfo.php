@@ -7,32 +7,66 @@ use yii\base\Model;
 
 class BookInfo extends Model
 {
-    public function __construct () {
-        $this->findBooks();
-    }
-
     /**
-     * Finds books
+     * Find books
      *
      * @return array
      */
     public function findBooks()
     {
-        return [
-            '0' => [
-                'id' => '1',
-                'name' => '1',
-                'price' => '1',
-                'pages' => '1',
-                'type' => 'js'
-            ],
-            '1' => [
-                'id' => '2',
-                'name' => '2',
-                'price' => '2',
-                'pages' => '21',
-                'type' => 'css'
-            ],
-        ];
+        $books = Yii::$app->db->createCommand('SELECT * FROM library')->queryAll();
+        return $books;
+    }
+
+    /**
+     * Find one book book by id
+     *@param id
+     * @return array
+     */
+    public function findOneBookById($bookid)
+    {
+        $book = Yii::$app->db->createCommand('SELECT * FROM library WHERE id=:id')
+                            ->bindValue(':id', $bookid)
+                            ->queryOne();
+        return $book;
+    }
+
+    /**
+     * delete one book by id
+     *@param id
+     * @return array
+     */
+    public function deleteOneBookById($bookid)
+    {
+        $result = Yii::$app->db->createCommand()
+                            ->delete('library', 'id = '.$bookid)
+                            ->execute();
+        return $result;
+    }
+
+    /**
+     * add one book
+     *@param array
+     * @return array
+     */
+    public function addOneBook($params)
+    {
+        $result = Yii::$app->db->createCommand()
+                            ->insert('library', $params)
+                            ->execute();
+        return $result;
+    }
+
+    /**
+     * update one book by id
+     *@param array
+     * @return array
+     */
+    public function updateOneBookById($bookid, $params)
+    {
+        $result = Yii::$app->db->createCommand()
+                            ->update('library', $params, 'id = '.$bookid)
+                            ->execute();
+        return $result;
     }
 }

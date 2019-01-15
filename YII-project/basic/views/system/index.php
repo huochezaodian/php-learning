@@ -26,7 +26,10 @@ $this->title = 'My Library System';
                         <td><?= $book['type'] ?></td>
                         <td><?= $book['price'] ?></td>
                         <td><?= $book['pages'] ?></td>
-                        <td><?= Html::a('编辑', ['system/contact', 'id' => $book['id']]) ?></td>
+                        <td>
+                            <?= Html::a('编辑', ['system/contact', 'id' => $book['id']]) ?>
+                            <?= Html::a('删除', ['system/delete', 'id' => $book['id']]) ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
