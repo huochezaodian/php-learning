@@ -48,7 +48,11 @@ class BookInfo extends Model
         {
             $value && $condition[$key] = $value;
         }
-        $books = Library::findAll($condition);
+        if (empty($condition)) {
+            $books = Library::find()->all();
+        } else {
+            $books = Library::findAll($condition);
+        }
         return $books;
     }
 
@@ -59,7 +63,7 @@ class BookInfo extends Model
      */
     public function findOneBookById($bookid)
     {
-        $book = Library::findOne(['id' => $book]);
+        $book = Library::findOne(['id' => $bookid]);
         return $book;
     }
 
