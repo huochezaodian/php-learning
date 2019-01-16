@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\Response;
 use app\models\system\ContactForm;
+use app\models\system\QueryForm;
 use app\models\system\BookInfo;
 
 class SystemController extends Controller
@@ -18,9 +19,11 @@ class SystemController extends Controller
     public function actionIndex()
     {
         $model = new BookInfo();
+        $params = new QueryForm();
         $Books = $model->findBooks();
         return $this->render('index', [
             'books' => $Books,
+            'query' => $params,
         ]);
     }
 
@@ -71,7 +74,7 @@ class SystemController extends Controller
         if ($result) {
             return $this->redirect(['index']);
         }
-        return $this->renderPartial('contact', [
+        return $this->render('contact', [
             'model' => $form,
         ]);
     }
@@ -86,5 +89,24 @@ class SystemController extends Controller
         $id = $request->get('id');
         $result = $bookInfo->deleteOneBookById($id);
         $this->redirect(['index']);
+    }
+
+    /**
+     *  query
+     */
+    public function actionQuery()
+    {
+        $request =  YII::$app->request;
+        $params = $request->post('QueryForm');
+        
+        $model = new BookInfo();
+        $Books = $model->findBooksByParams($params);
+        
+        $query = new QueryForm();
+        $query->loadParams($params);
+        return $this->render('index', [
+            'books' => $Books,
+            'query' => $query
+        ]);
     }
 }

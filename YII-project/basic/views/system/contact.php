@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Contact';
+$this->title = $model['id'] ? '编辑' : '添加';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="system-contact">

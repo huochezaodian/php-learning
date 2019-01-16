@@ -4,6 +4,7 @@ namespace app\models\system;
 
 use Yii;
 use yii\base\Model;
+use app\models\system\Library;
 
 class BookInfo extends Model
 {
@@ -31,7 +32,23 @@ class BookInfo extends Model
     public function findBooks()
     {
         $this->createTable();
-        $books = Yii::$app->db->createCommand('SELECT * FROM library')->queryAll();
+        $books = Library::find()->all();
+        return $books;
+    }
+
+    /**
+     * Find books by params
+     *
+     * @return array
+     */
+    public function findBooksByParams($params)
+    {
+        $condition = [];
+        foreach($params as $key => $value)
+        {
+            $value && $condition[$key] = $value;
+        }
+        $books = Library::findAll($condition);
         return $books;
     }
 
@@ -42,9 +59,7 @@ class BookInfo extends Model
      */
     public function findOneBookById($bookid)
     {
-        $book = Yii::$app->db->createCommand('SELECT * FROM library WHERE id=:id')
-                            ->bindValue(':id', $bookid)
-                            ->queryOne();
+        $book = Library::findOne(['id' => $book]);
         return $book;
     }
 

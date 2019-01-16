@@ -2,10 +2,29 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
 
 $this->title = 'My Library System';
+$this->params['breadcrumbs'][] = '查询';
 ?>
 <div class="system-index">
+
+    <?php $form = ActiveForm::begin([
+        'id' => 'query-form',
+        'action' => ['system/query'],
+        'method' => 'post',
+        'options' => ['class' => 'form-inline'],
+        ]); ?>
+
+        <?= $form->field($query, 'name')->textInput(['placeholder'=>'book name'])->label('书名') ?>
+
+        <?= $form->field($query, 'type')->dropdownList(['js' => 'js', 'css' => 'css', 'html' => 'html', 'other' => 'other'], ['prompt'=>'Select Type'])->label('类型')?>
+
+        <?= Html::submitButton('查询', ['class' => 'btn btn-primary float-right', 'name' => 'query-button']) ?>
+
+
+    <?php ActiveForm::end(); ?>
+
     <div class="table-responsive">
         <table class="table table-hover table-bordered table-striped">
             <thead>
