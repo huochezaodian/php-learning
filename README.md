@@ -4,4 +4,5 @@
     
     1. ui使用php模板
     2. 引入bootstrap
-    3. mvc 模式，纯 php 系统
+    3. mvc 模式
+    4. 给 [library](https://github.com/huochezaodian/library) 系统提供网络api
