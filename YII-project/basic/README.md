@@ -9,5 +9,5 @@
     5. 本系统 已修改为 system 前缀文件或文件夹
     6. 开启应用前需安装 composer 安装依赖，类似于 npm、yarn等
     7. view 层中 index 是列表页，contact 是修改、添加功能
-    8. LibraryController负责给 [Library](https://github.com/huochezaodian/library) 系统提供web api
     ```
+- LibraryController负责给 [library](https://github.com/huochezaodian/library) 系统提供web api
