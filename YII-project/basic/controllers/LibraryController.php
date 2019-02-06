@@ -101,8 +101,9 @@ class LibraryController extends Controller
         $response->format = Response::FORMAT_JSON;
         if ($request->isPost) {
             $params = $request->post();
+            $id = $request->post('id');
             $model = new BookInfo();
-            $result = $model->addOneBook([
+            $result = $model->updateOneBookById($id, [
                 'name' => $params['name'],
                 'type' => $params['type'],
                 'price' => $params['price'],
